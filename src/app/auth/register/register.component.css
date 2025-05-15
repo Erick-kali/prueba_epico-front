@@ -1,0 +1,114 @@
+/* Estilo general para el formulario */
+.register-container {
+  background-image: url('https://th.bing.com/th/id/R.a4ef6023c3d542c5cff52759de62b2d3?rik=1aBCTtV7ZcpWnQ&riu=http%3a%2f%2f13983943.s21i.faiusr.com%2f2%2fABUIABACGAAgkoC8_gUoqKnqpgQwwAo4yAY.jpg&ehk=FB2cSVbwgHirFbOI2L85z4RaIcwdOFp9AhR9OlSempA%3d&risl=&pid=ImgRaw&r=0'); /* Reemplaza con la URL de tu imagen */
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  position: relative;
+}
+
+.register-box {
+  background-color: rgba(255, 255, 255, 0.6); /* Fondo blanco con opacidad para que la imagen se vea parcialmente */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 30px;
+  width: 100%;
+  max-width: 450px;
+  backdrop-filter: blur(15px); /* Aplica el efecto de desenfoque más fuerte */
+}
+
+h2 {
+  font-size: 28px;
+  font-weight: bold;
+  color: #3d3d3d;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* Estilos para los campos de entrada */
+.form-group {
+  position: relative;
+}
+
+.input-field {
+  padding-left: 35px; /* Espacio para los iconos */
+  padding-right: 15px;
+  font-size: 16px;
+  border-radius: 30px;
+  border: 1px solid #d1d1d1;
+  height: 45px;
+  width: 100%;
+}
+
+.input-field:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  outline: none;
+}
+
+/* Iconos dentro de los campos */
+.icon-container i {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: #007bff;
+}
+
+/* Estilo del botón */
+.register-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  padding: 12px;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.register-btn:hover {
+  background-color: #0056b3;
+}
+
+.register-btn:focus {
+  outline: none;
+}
+
+/* Estilo para el enlace de login */
+.login-link {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.login-link p {
+  font-size: 14px;
+  color: #3d3d3d;
+}
+
+.login-link a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 576px) {
+  .register-box {
+    padding: 20px;
+    max-width: 100%;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+}

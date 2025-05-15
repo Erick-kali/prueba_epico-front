@@ -1,0 +1,67 @@
+<div class="register-container">
+  <div class="register-box">
+    <h2>Crear Cuenta</h2>
+    <form (ngSubmit)="registrarUsuario()">
+      
+      <!-- Nombres -->
+      <div class="form-group">
+        <div class="icon-container">
+          <i class="fas fa-user icon"></i>
+        </div>
+        <input type="text" class="input-field" placeholder="Nombres" name="nombres" [(ngModel)]="nombres" required>
+      </div>
+
+      <!-- Apellidos -->
+      <div class="form-group">
+        <div class="icon-container">
+          <i class="fas fa-user-tie icon"></i>
+        </div>
+        <input type="text" class="input-field" placeholder="Apellidos" name="apellidos" [(ngModel)]="apellidos" required>
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <div class="icon-container">
+          <i class="fas fa-envelope icon"></i>
+        </div>
+        <input type="email" class="input-field" placeholder="Correo electrónico" name="email" [(ngModel)]="email" required>
+      </div>
+
+      <!-- Cédula -->
+      <div class="form-group">
+        <div class="icon-container">
+          <i class="fas fa-id-card icon"></i>
+        </div>
+        <input type="text" class="input-field" placeholder="Cédula" name="cedula" [(ngModel)]="cedula" required>
+      </div>
+
+      <!-- Contraseña -->
+      <div class="form-group">
+        <div class="icon-container">
+          <i class="fas fa-lock icon"></i>
+        </div>
+        <input type="password" class="input-field" placeholder="Contraseña" name="contrasena" [(ngModel)]="contrasena" required>
+      </div>
+
+      <!-- Rol -->
+      <div class="form-group">
+        <div class="icon-container">
+          <i class="fas fa-user-shield icon"></i>
+        </div>
+        <select class="input-field" name="rol" [(ngModel)]="rol" required>
+          <option value="1">Administrador</option>
+          <option value="2">Cliente</option>
+        </select>
+      </div>
+
+      <!-- Botón de registro -->
+      <button type="submit" class="register-btn">Registrarse</button>
+
+      <!-- Enlace para ir a login -->
+      <div class="login-link">
+        <p>¿Ya tienes una cuenta? <a routerLink="/login">Iniciar sesión</a></p>
+      </div>
+    </form>
+  </div>
+</div>
+ 

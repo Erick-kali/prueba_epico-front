@@ -1,0 +1,51 @@
+<div class="login-container">
+  <div class="login-box animate__animated animate__backInLeft">
+    <div class="lock-wrapper">
+      <div class="lock-circle">
+        <i class="fas fa-lock"></i>
+      </div>
+    </div>
+    
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <i class="fas fa-user field-icon"></i>
+        <input 
+          type="text" 
+          class="input-field"
+          placeholder="Usuario" 
+          name="usuario" 
+          [(ngModel)]="usuario"
+          autocomplete="off">
+      </div>
+
+      <div class="form-group password-wrapper">
+        <i class="fas fa-lock field-icon"></i>
+        <input 
+          [type]="showPassword ? 'text' : 'password'" 
+          class="input-field"
+          placeholder="Password" 
+          name="pass" 
+          [(ngModel)]="pass"
+          autocomplete="off">
+        <i 
+          class="fas toggle-password"
+          [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'" 
+          (click)="togglePassword()"></i>
+      </div>
+
+      <div class="remember-wrapper">
+        <span class="remember-text">Recordar</span>
+        <label class="switch">
+          <input type="checkbox" id="remember">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <button type="submit" class="login-btn">iniciar sesion</button>
+    </form>
+    <div class="text-center mt-3">
+      <a routerLink="/register" class="text-white">¿No tienes cuenta? Crea una aquí</a>
+    </div>
+
+  </div>
+</div>

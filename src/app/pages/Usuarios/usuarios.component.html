@@ -1,0 +1,150 @@
+<div class="usuarios-container">
+  <h1>Gestión de Usuarios</h1>
+
+  <!-- Barra de herramientas -->
+  <div class="toolbar-container">
+    <mat-form-field appearance="outline" class="filter-field">
+      <mat-label>Buscar por nombres o apellidos</mat-label>
+      <input matInput (input)="applyFilter($event)" placeholder="Buscar..." />
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="abrirModal()">
+      <mat-icon>add</mat-icon>
+      Agregar Usuario
+    </button>
+  </div>
+
+  <!-- Tabla de usuarios -->
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <ng-container matColumnDef="id_usuario">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let usuario">{{ usuario.id_usuario }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="nombres">
+      <th mat-header-cell *matHeaderCellDef>Nombres</th>
+      <td mat-cell *matCellDef="let usuario">{{ usuario.nombres }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="apellidos">
+      <th mat-header-cell *matHeaderCellDef>Apellidos</th>
+      <td mat-cell *matCellDef="let usuario">{{ usuario.apellidos }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef>Email</th>
+      <td mat-cell *matCellDef="let usuario">{{ usuario.email }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="cedula">
+      <th mat-header-cell *matHeaderCellDef>Cédula</th>
+      <td mat-cell *matCellDef="let usuario">{{ usuario.cedula }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="id_rol">
+      <th mat-header-cell *matHeaderCellDef>Rol</th>
+      <td mat-cell *matCellDef="let usuario">{{ getNombreRol(usuario.id_rol) }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>Estado</th>
+      <td mat-cell *matCellDef="let usuario">{{ usuario.status === 'activo' ? 'Activo' : 'Inactivo' }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="numero_intento">
+      <th mat-header-cell *matHeaderCellDef>Número de Intentos</th>
+      <td mat-cell *matCellDef="let usuario">{{ usuario.numero_intento }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="acciones">
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+      <td mat-cell *matCellDef="let usuario">
+        <div style="display: flex; justify-content: space-evenly; align-items: center;">
+          <button mat-icon-button color="primary" (click)="abrirModal(usuario)" matTooltip="Editar">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="eliminarUsuario(usuario.id_usuario)" matTooltip="Eliminar">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>
+
+<!-- Template del Modal -->
+<ng-template #modalUsuario>
+  <h2 mat-dialog-title>{{ editMode ? 'Editar Usuario' : 'Crear Usuario' }}</h2>
+  <div mat-dialog-content>
+    <form [formGroup]="form" class="usuario-form">
+      <div class="form-group">
+        <mat-form-field appearance="outline">
+          <mat-label>Nombres</mat-label>
+          <input matInput formControlName="nombres" required />
+          <mat-error *ngIf="form.get('nombres')?.invalid">Este campo es obligatorio.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Apellidos</mat-label>
+          <input matInput formControlName="apellidos" required />
+          <mat-error *ngIf="form.get('apellidos')?.invalid">Este campo es obligatorio.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" required type="email" />
+          <mat-error *ngIf="form.get('email')?.invalid">Email inválido.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Cédula</mat-label>
+          <input matInput formControlName="cedula" required />
+          <mat-error *ngIf="form.get('cedula')?.invalid">Cédula inválida.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" *ngIf="!editMode">
+          <mat-label>Contraseña</mat-label>
+          <input matInput formControlName="contrasena" required type="password" />
+          <mat-error *ngIf="form.get('contrasena')?.invalid">La contraseña debe tener al menos 6 caracteres.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Rol</mat-label>
+          <mat-select formControlName="id_rol" required>
+            <mat-option *ngFor="let rol of roles" [value]="rol.id_rol">
+              {{ rol.nombre_rol }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Estado</mat-label>
+          <mat-select formControlName="status" required>
+            <mat-option value="activo">Activo</mat-option>
+            <mat-option value="inactivo">Inactivo</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Número de intentos</mat-label>
+          <mat-select formControlName="numero_intento" required>
+            <mat-option *ngFor="let intento of intentosList" [value]="intento">
+              {{ intento }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </form>
+  </div>
+  <div mat-dialog-actions align="end">
+    <button mat-button (click)="cerrarModal()">Cancelar</button>
+    <button mat-raised-button color="primary" (click)="guardarUsuario()" [disabled]="form.invalid">
+      {{ editMode ? 'Actualizar' : 'Guardar' }}
+    </button>
+  </div>
+</ng-template>

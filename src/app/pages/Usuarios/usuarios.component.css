@@ -1,0 +1,178 @@
+/* Contenedor principal de usuarios - Pantalla completa */
+.usuarios-container-full {
+  width: 100%;
+  height: 100vh;
+  padding: 20px;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Barra de herramientas */
+.toolbar-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+/* Campo de filtro - buscador */
+.filter-field {
+  flex-grow: 1;
+  max-width: 400px;   /* más ancho */
+  min-width: 250px;   /* más ancho mínimo */
+}
+
+/* Estilo del input buscador */
+.filter-field input {
+  width: 100%;
+  padding: 8px 16px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 24px; /* bordes más redondeados */
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.filter-field input:focus {
+  border-color: #5C9DBF;
+  box-shadow: 0 0 5px rgba(92, 157, 191, 0.5);
+}
+
+/* Botón de búsqueda */
+.search-button {
+  width: 38px;
+  height: 38px;
+  border: none;
+  background-color: #5C9DBF;
+  color: white;
+  border-radius: 50%; /* botón circular */
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease;
+  font-size: 18px;
+  box-shadow: 0 2px 6px rgba(92, 157, 191, 0.4);
+}
+
+.search-button:hover {
+  background-color: #497aa0;
+}
+
+/* Botón agregar producto redondo y más grande */
+.add-button {
+  width: 48px;
+  height: 48px;
+  border: none;
+  background-color: #5C9DBF;
+  color: white;
+  border-radius: 50%; /* botón redondo */
+  cursor: pointer;
+  font-size: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 3px 8px rgba(92, 157, 191, 0.5);
+  transition: background-color 0.3s ease;
+}
+
+.add-button:hover {
+  background-color: #497aa0;
+}
+
+/* Contenedor de tabla */
+.table-container {
+  flex-grow: 1;
+  overflow: auto;
+  width: 100%;
+}
+
+/* Tabla de ancho completo */
+.full-width-table {
+  width: 100%;
+  min-width: 100%;
+}
+
+.full-width-paginator {
+  width: 100%;
+}
+
+/* Botones de acciones */
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Formulario de usuario */
+.usuario-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+/* Campos de formulario */
+mat-form-field {
+  width: 100%;
+}
+
+/* Estilo de tabla */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+}
+
+table th, table td {
+  text-align: left;
+  padding: 12px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+
+table th {
+  background-color: #5C9DBF;
+  color: #ffffff;
+  text-transform: uppercase;
+  font-weight: bold;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+table tr:hover {
+  background-color: #e6f7ff;
+}
+
+/* Ajustes responsivos */
+@media (max-width: 768px) {
+  .usuarios-container-full {
+    padding: 10px;
+  }
+
+  .toolbar-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .filter-field {
+    max-width: 100%;
+  }
+
+  .usuario-form {
+    grid-template-columns: 1fr;
+  }
+
+  table th, table td {
+    padding: 8px;
+    font-size: 12px;
+  }
+}

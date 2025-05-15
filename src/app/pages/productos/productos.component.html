@@ -1,0 +1,143 @@
+<div class="productos-container">
+  <h1>Gestión de Productos</h1>
+
+  <!-- Barra de herramientas -->
+  <div class="toolbar-container">
+    <mat-form-field appearance="outline" class="filter-field">
+      <mat-label>Buscar productos</mat-label>
+      <input matInput (input)="applyFilter($event)" placeholder="Buscar..." />
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="abrirModal()">
+      <mat-icon>add</mat-icon>
+      Agregar Producto
+    </button>
+  </div>
+
+  <!-- Tabla de productos -->
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="id_producto">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let producto">{{ producto.id_producto }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="nombre_producto">
+      <th mat-header-cell *matHeaderCellDef>Nombre</th>
+      <td mat-cell *matCellDef="let producto">{{ producto.nombre_producto }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="descripcion">
+      <th mat-header-cell *matHeaderCellDef>Descripción</th>
+      <td mat-cell *matCellDef="let producto">{{ producto.descripcion }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="precio">
+      <th mat-header-cell *matHeaderCellDef>Precio</th>
+      <td mat-cell *matCellDef="let producto">{{ producto.precio | currency }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="stock">
+      <th mat-header-cell *matHeaderCellDef>Stock</th>
+      <td mat-cell *matCellDef="let producto">{{ producto.stock }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="categoria">
+      <th mat-header-cell *matHeaderCellDef>Categoría</th>
+      <td mat-cell *matCellDef="let producto">{{ producto.categoria }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="proveedor">
+      <th mat-header-cell *matHeaderCellDef>Proveedor</th>
+      <td mat-cell *matCellDef="let producto">{{ producto.proveedor }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="estado">
+      <th mat-header-cell *matHeaderCellDef>Estado</th>
+      <td mat-cell *matCellDef="let producto">{{ producto.estado }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="acciones">
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+      <td mat-cell *matCellDef="let producto">
+        <div style="display: flex; justify-content: space-evenly; align-items: center;">
+          <button mat-icon-button color="primary" (click)="abrirModal(producto)" matTooltip="Editar">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="eliminarProducto(producto.id_producto)" matTooltip="Eliminar">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>
+
+<!-- Template del Modal -->
+<ng-template #modalProducto>
+  <h2 mat-dialog-title>{{ editMode ? 'Editar Producto' : 'Crear Producto' }}</h2>
+  <div mat-dialog-content>
+    <form [formGroup]="form" class="productos-form">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nombre del Producto</mat-label>
+        <input matInput formControlName="nombre_producto" required />
+        <mat-error *ngIf="form.get('nombre_producto')?.invalid">Este campo es obligatorio.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Descripción</mat-label>
+        <textarea matInput formControlName="descripcion" rows="3" required></textarea>
+        <mat-error *ngIf="form.get('descripcion')?.invalid">Este campo es obligatorio.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Precio</mat-label>
+        <input matInput type="number" formControlName="precio" min="0.01" required />
+        <mat-error *ngIf="form.get('precio')?.invalid">Debe ser un número mayor a cero.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Stock</mat-label>
+        <input matInput type="number" formControlName="stock" min="0" required />
+        <mat-error *ngIf="form.get('stock')?.invalid">Debe ser un número igual o mayor a cero.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Categoría</mat-label>
+        <mat-select formControlName="categoria" required>
+          <mat-option *ngFor="let cat of categorias" [value]="cat">{{ cat }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('categoria')?.invalid">Seleccione una categoría.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Proveedor</mat-label>
+        <mat-select formControlName="proveedor" required>
+          <mat-option *ngFor="let prov of proveedores" [value]="prov">{{ prov }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('proveedor')?.invalid">Seleccione un proveedor.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Estado</mat-label>
+        <mat-select formControlName="estado" required>
+          <mat-option value="disponible">Disponible</mat-option>
+          <mat-option value="agotado">Agotado</mat-option>
+          <mat-option value="descontinuado">Descontinuado</mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('estado')?.invalid">Seleccione un estado.</mat-error>
+      </mat-form-field>
+    </form>
+  </div>
+  <div mat-dialog-actions align="end">
+    <button mat-button (click)="cerrarModal()">Cancelar</button>
+    <button mat-raised-button color="primary" (click)="guardarProducto()" [disabled]="form.invalid">
+      {{ editMode ? 'Actualizar' : 'Guardar' }}
+    </button>
+  </div>
+</ng-template>
