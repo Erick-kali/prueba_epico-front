@@ -1,0 +1,12 @@
+<!-- perfil.component.html -->
+<div *ngIf="usuario; else noAuth">
+  <h2>Perfil de Usuario</h2>
+  <p><strong>Nombre:</strong> {{ usuario.nombres }} {{ usuario.apellidos }}</p>
+  <p><strong>Email:</strong> {{ usuario.email }}</p>
+  <p><strong>Rol:</strong> {{ rolNombre }}</p>
+  <p><strong>Iniciales:</strong> {{ obtenerIniciales() }}</p>
+</div>
+
+<ng-template #noAuth>
+  <p>No hay usuario autenticado.</p>
+</ng-template>

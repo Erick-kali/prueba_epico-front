@@ -18,6 +18,8 @@ export class SidebarComponent {
         { titulo: 'Roles', url: 'roles', icon: 'far fa-circle'},
 
         {titulo: 'Productos', url: 'productos', icon: 'far fa-circle'},
+
+        {titulo: 'Ventas', url:'ventas', icon: 'far fa-circle'},
         
         
         {
@@ -34,7 +36,7 @@ export class SidebarComponent {
       titulo: 'Configuracion', // Menú adicional
       icono: 'nav-icon fas fa-cogs',
       submenu: [
-        { titulo: 'Perfil', url: 'profile', icon: 'far fa-user' },
+        { titulo: 'Perfil', url: 'perfil', icon: 'far fa-user' },
         { titulo: 'Privacidad', url: 'privacy', icon: 'fa fa-lock' },
       ]
     }

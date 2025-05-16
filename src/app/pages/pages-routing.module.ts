@@ -6,6 +6,8 @@ import { UsuariosComponent } from './Usuarios/Usuarios.Component';
 import { authGuard } from '../guards/auth.guard';
 import { RolesComponent } from './roles/roles.component';
 import { ProductosComponent } from './productos/productos.component';
+import { PerfilComponent } from './perfil/perfil.component';
+import { VentasComponent } from './ventas/ventas.component';
 
 const routes: Routes = [
 
@@ -16,6 +18,8 @@ const routes: Routes = [
     {path:'', component:DashboardComponent, data:{titulo:'Administracion'}},
     {path:'Usuarios', component:UsuariosComponent, data:{titulo:'Usuarios'}},
     { path: 'productos', component: ProductosComponent, data:{titulo:'Productos'} },
+    {path: 'perfil', component:PerfilComponent, data:{titulo:'Mi Perfil'}},
+    {path:'ventas', component:VentasComponent, data:{titulo:'Ventas'}},
 
     {path:'roles', component:RolesComponent, data:{titulo:'Roles'}},
     

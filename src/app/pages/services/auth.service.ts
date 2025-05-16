@@ -1,37 +1,34 @@
-// src/app/services/auth.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of, BehaviorSubject } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Usuarios } from '../../interfaces/usuarios.interface';
 import { Rol } from '../../interfaces/rol.interface';
-import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private apiUrl = 'http://127.0.0.1:8000/api/usuarios'; // URL para el endpoint de usuarios
+  private baseUrl = 'http://127.0.0.1:8000/api';         // URL base para todos los endpoints  
+  private rolesUrl = `${this.baseUrl}/roles`;            // URL para el endpoint de roles
 
-  private baseUrl = 'http://127.0.0.1:8000/api';  // URL base para todos los endpoints  
-  private rolesUrl = `${this.baseUrl}/roles`;  // URL para el endpoint de roles
+  // Usuario actual en memoria (observable)
+  private usuarioActualSubject = new BehaviorSubject<Usuarios | null>(this.obtenerUsuarioDesdeStorage());
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   /**
    * Obtiene la lista de usuarios desde el backend.
-   * @returns Observable<Usuarios[]>
    */
   obtenerUsuarios(): Observable<Usuarios[]> {
     return this.http.get<Usuarios[]>(this.apiUrl).pipe(
-      catchError(this.handleError<Usuarios[]>('obtenerUsuarios', []))  // Manejo de error
+      catchError(this.handleError<Usuarios[]>('obtenerUsuarios', []))
     );
   }
 
   /**
    * Obtiene un usuario por su ID desde el backend.
-   * @param id El ID del usuario.
-   * @returns Observable<Usuarios>
    */
   obtenerUsuarioPorId(id: number): Observable<Usuarios> {
     return this.http.get<Usuarios>(`${this.apiUrl}/${id}`).pipe(
@@ -41,19 +38,15 @@ export class AuthService {
 
   /**
    * Obtiene la lista de roles desde el backend.
-   * @returns Observable<Rol[]>
    */
   obtenerRoles(): Observable<Rol[]> {
     return this.http.get<Rol[]>(this.rolesUrl).pipe(
-      catchError(this.handleError<Rol[]>('obtenerRoles', []))  // Manejo de error
+      catchError(this.handleError<Rol[]>('obtenerRoles', []))
     );
   }
 
-
   /**
    * Crea un nuevo usuario en el backend.
-   * @param usuario El objeto usuario a crear.
-   * @returns Observable<Usuarios>
    */
   crearUsuario(usuario: Usuarios): Observable<Usuarios> {
     return this.http.post<Usuarios>(this.apiUrl, usuario);
@@ -61,30 +54,53 @@ export class AuthService {
 
   /**
    * Actualiza los datos de un usuario en el backend.
-   * @param usuario El objeto usuario con los datos a actualizar.
-   * @returns Observable<Usuarios>
    */
   actualizarUsuario(usuario: Usuarios): Observable<Usuarios> {
     return this.http.put<Usuarios>(`${this.apiUrl}/${usuario.id_usuario}`, usuario);
   }
 
-
   /**
    * Elimina un usuario del backend.
-   * @param id El ID del usuario a eliminar.
-   * @returns Observable<void>
    */
   eliminarUsuario(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
-      catchError(this.handleError<void>('eliminarUsuario'))  // Manejo de error
+      catchError(this.handleError<void>('eliminarUsuario'))
     );
   }
 
   /**
-   * Maneja los errores de las peticiones HTTP.
-   * @param operation El nombre de la operación que falló.
-   * @param result El valor predeterminado que se retornará en caso de error.
-   * @returns Observable Típico de cualquier observable.
+   * Establece el usuario actual (ej. después del login).
+   */
+  establecerUsuarioActual(usuario: Usuarios): void {
+    this.usuarioActualSubject.next(usuario);
+    localStorage.setItem('usuario', JSON.stringify(usuario));
+  }
+
+  /**
+   * Retorna un observable con el usuario actual.
+   */
+  obtenerUsuarioActual(): Observable<Usuarios | null> {
+    return this.usuarioActualSubject.asObservable();
+  }
+
+  /**
+   * Limpia el usuario actual (ej. al cerrar sesión).
+   */
+  limpiarUsuarioActual(): void {
+    this.usuarioActualSubject.next(null);
+    localStorage.removeItem('usuario');
+  }
+
+  /**
+   * Lee el usuario desde localStorage al iniciar la app.
+   */
+  private obtenerUsuarioDesdeStorage(): Usuarios | null {
+    const usuarioJson = localStorage.getItem('usuario');
+    return usuarioJson ? JSON.parse(usuarioJson) : null;
+  }
+
+  /**
+   * Manejo de errores comunes.
    */
   private handleError<T>(operation = 'operación', result?: T) {
     return (error: any): Observable<T> => {

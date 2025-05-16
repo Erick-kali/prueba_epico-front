@@ -24,6 +24,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { RolesComponent } from './roles/roles.component';
 import { ProductosComponent } from './productos/productos.component';
+import { PerfilComponent } from './perfil/perfil.component';
+import { VentasComponent } from './ventas/ventas.component';
 
 
 @NgModule({
@@ -31,10 +33,12 @@ import { ProductosComponent } from './productos/productos.component';
     DashboardComponent,
     UsuariosComponent,
     ProductosComponent,
+    PerfilComponent,
     
     PagesComponent,
     
     RolesComponent,
+          VentasComponent,
     
    
   ],
@@ -56,6 +60,7 @@ import { ProductosComponent } from './productos/productos.component';
     CommonModule,
     MatDatepickerModule,  // Importar en el módulo donde se usa
     MatNativeDateModule, 
+    
   ]
 })
 export class PagesModule { }
